@@ -11,8 +11,8 @@ class SinglyLinkedList {
     this.tail = null;
   }
 
-  insert(value) {
-    const newNode = new Node(value);
+  insertTail(value) {
+    const newNode = new Node(value, null);
     if (this.head) {
       let currentNode = this.head;
       while (currentNode && currentNode.next) {
@@ -26,6 +26,38 @@ class SinglyLinkedList {
     }
   }
 
+  insertHead(value) {
+    const newNode = new Node(value, null);
+    newNode.next = this.head;
+    this.head = newNode;
+  }
+
+  deleteHead() {
+    if (this.head) {
+      let head = this.head;
+      this.head = head.next;
+      head = null;
+    } else {
+      throw new Error("the list is empty");
+    }
+  }
+
+  deleteTail() {
+    if (this.head && this.head.next) {
+      let currentNode = this.head;
+      while (currentNode.next !== null && currentNode.next.next !== null) {
+        currentNode = currentNode.next;
+      }
+      currentNode.next = null;
+      this.tail = currentNode;
+    } else if (this.head) {
+      this.head = null;
+      this.tail = null;
+    } else {
+      throw new Error("this list is empty");
+    }
+  }
+
   *[Symbol.iterator]() {
     let currentNode = this.head;
     while (currentNode) {
@@ -36,10 +68,14 @@ class SinglyLinkedList {
 }
 
 const list = new SinglyLinkedList();
-list.insert(1);
-list.insert(2);
-list.insert(3);
+list.insertTail(1);
+list.insertTail(2);
+list.insertTail(3);
 
+list.deleteHead();
+list.deleteHead();
+list.deleteHead();
+list.deleteHead();
 for (const item of list) {
   console.log(item);
 }
