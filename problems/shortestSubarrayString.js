@@ -34,10 +34,6 @@ class WordsIndex {
   }
 }
 
-const wordList = new WordsIndex(
-  "a set of words that is complete in itself, typically containing a subject and predicate, conveying a statement, question, exclamation, or command, and consisting ​of​ a main clause​and​ sometimes ​one​ or more subordinate clauses"
-);
-
 class Node {
   constructor(key, value, prev = null, next = null) {
     this.key = key;
@@ -86,7 +82,6 @@ class ShortestSubarrayString {
         if (Object.keys(this.map).length === this.s.length) {
           const startIndex = this.head.value;
           const endIndex = this.tail.value + this.tail.key.length - 1;
-          console.log(startIndex, endIndex);
           if (
             this.result === "" ||
             endIndex - startIndex < this.result.length
@@ -101,13 +96,11 @@ class ShortestSubarrayString {
 
   add(key, value) {
     const node = new Node(key, value);
-
     this.appendToLinkedList(node);
     this.map[key] = node;
   }
 
   remove(key) {
-    if (this.map[key] === undefined) return;
     const node = this.map[key];
     this.removeFromLinkedList(node);
     delete this.map[key];
