@@ -1,7 +1,23 @@
 class Node {
-  constructor(value, next) {
+  constructor(value, next = null) {
     this.value = value;
     this.next = next;
+  }
+
+  getNext() {
+    return this.next;
+  }
+
+  setNext(next) {
+    this.next = next;
+  }
+
+  getValue() {
+    return this.value;
+  }
+
+  setValue(value) {
+    this.value = value;
   }
 }
 
@@ -11,71 +27,35 @@ class SinglyLinkedList {
     this.tail = null;
   }
 
-  insertTail(value) {
-    const newNode = new Node(value, null);
-    if (this.head) {
-      let currentNode = this.head;
-      while (currentNode && currentNode.next) {
-        currentNode = currentNode.next;
-      }
-      currentNode.next = newNode;
-      this.tail = newNode;
+  addFirst(value) {
+    this.head = new Node(value, this.head);
+    if (this.size === 0) {
+      this.tail = this.head;
+    }
+    this.size += 1;
+  }
+
+  addLast(value) {
+    const newNode = new Node(value);
+    if (this.tail) {
+      this.tail.setNext(newNode);
     } else {
       this.head = newNode;
-      this.tail = newNode;
     }
+    this.tail = newNode;
+    this.size += 1;
   }
 
-  insertHead(value) {
-    const newNode = new Node(value, null);
-    newNode.next = this.head;
-    this.head = newNode;
-  }
-
-  deleteHead() {
-    if (this.head) {
-      let head = this.head;
-      this.head = head.next;
-      head = null;
-    } else {
-      throw new Error("the list is empty");
+  removeFirst() {
+    if (this.head === null) {
+      return null;
     }
-  }
-
-  deleteTail() {
-    if (this.head && this.head.next) {
-      let currentNode = this.head;
-      while (currentNode.next !== null && currentNode.next.next !== null) {
-        currentNode = currentNode.next;
-      }
-      currentNode.next = null;
-      this.tail = currentNode;
-    } else if (this.head) {
-      this.head = null;
+    const answer = this.head.getValue();
+    this.head = this.head.getNext();
+    this.size -= 1;
+    if (this.size === 0) {
       this.tail = null;
-    } else {
-      throw new Error("this list is empty");
     }
+    return answer;
   }
-
-  *[Symbol.iterator]() {
-    let currentNode = this.head;
-    while (currentNode) {
-      yield currentNode.value;
-      currentNode = currentNode.next;
-    }
-  }
-}
-
-const list = new SinglyLinkedList();
-list.insertTail(1);
-list.insertTail(2);
-list.insertTail(3);
-
-list.deleteHead();
-list.deleteHead();
-list.deleteHead();
-list.deleteHead();
-for (const item of list) {
-  console.log(item);
 }
